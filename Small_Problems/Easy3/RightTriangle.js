@@ -1,14 +1,13 @@
 function triangle(num) {
-  let space = num - 1;
-  let star = 1;
-  while (num > 0) {
-    console.log(`${" ".repeat(space)}${"*".repeat(star)}`);
-    space--;
-    star++;
-    num--;
+  const numSpaces = num - 1;
+  let numAstrx = 1;
+  const asterix = "*";
+  const space = " ";
+
+  for (let i = numSpaces; i >= 0; i--) {
+    console.log(space.repeat(i) + asterix.repeat(numAstrx));
+    numAstrx++;
   }
 }
 
 triangle(9);
-triangle(5);
-
