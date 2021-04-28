@@ -1,5 +1,3 @@
-function seq(num) {
-  let num1 = 1;
-  let num2 = 1;
-  
-}
+let arr = [1, 1];
+
+function findFibonacciIndexByLength(num) {}

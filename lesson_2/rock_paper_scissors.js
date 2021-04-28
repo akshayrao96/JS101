@@ -3,9 +3,21 @@ const rls = require("readline-sync");
 
 const VALID_CHOICES = ["rock", "paper", "scissors"];
 
+let totalGames = 0;
+let userWins = 0;
+let computerWins = 0;
+let ties = 0;
+
 let playAgain = true;
 function prompt(msg) {
   console.log(`=> ${msg}`);
+}
+
+function stats(total, user, computer, ties) {
+  prompt(`Total games played = ${total}`);
+  prompt(`User wins = ${user}`);
+  prompt(`Computer wins = ${computer}`);
+  prompt(`Ties = ${ties}`);
 }
 
 while (playAgain) {
@@ -29,15 +41,19 @@ while (playAgain) {
     (userChoice === "paper" && computerChoice === "rock")
   ) {
     prompt("You win!");
+    userWins += 1;
   } else if (
     (userChoice === "scissors" && computerChoice === "rock") ||
     (userChoice === "paper" && computerChoice === "scissors") ||
     (userChoice === "rock" && computerChoice === "paper")
   ) {
     prompt("You lose!");
+    computerWins += 1;
   } else {
     prompt("It's a tie!");
+    ties += 1;
   }
+  totalGames += 1;
 
   prompt("Would you like to play again? (y/n)");
   let answer = rls.question().toLowerCase();
@@ -51,3 +67,5 @@ while (playAgain) {
     playAgain = false;
   }
 }
+
+stats(totalGames, userWins, computerWins, ties);
