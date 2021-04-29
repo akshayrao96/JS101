@@ -1,4 +1,18 @@
-function dms(num) {}
+function getMinutes(num) {
+
+}
+
+function getSeconds(num) {
+
+}
+
+function dms(num) {
+  let str = String(Math.floor(num)) + "";
+
+}
+
+
+
 
 dms(30); // 30°00'00"
 dms(76.73); // 76°43'48"
