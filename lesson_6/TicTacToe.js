@@ -28,6 +28,7 @@ function initializeBoard() {
   return options;
 }
 
+// displays board
 function displayBoard(options) {
   console.log("");
   console.log("              |         |          ");
@@ -50,6 +51,7 @@ function displayBoard(options) {
   console.log("");
 }
 
+// resets booard
 function boardReset(obj) {
   for (let key in obj) {
     obj[key] = " ";
@@ -97,21 +99,30 @@ function playerChoosesSquare(board) {
   board[userSquare] = userMarker;
 }
 
-function computerChoosesSquare(board) {}
+function computerChoosesSquare(board) {
+  let emptySquares = Object.keys(board).filter((key) => board[key] === " ");
+  let options = emptySquares.length;
+  let computerSquare = emptySquares[Math.floor(Math.random() * options)];
+  board[computerSquare] = computerMarker;
+}
+
+
 
 // main
-console.log("");
+console.log();
 prompt("Welcome to Tic-Tac-Toe game!");
 let board = initializeBoard();
 displayBoard(board);
 prompt("Please pick:  1. O  2. X");
 let userChoice = rls.prompt();
+console.log();
+
 squareType(userChoice);
+prompt(`You are ${userMarker}`);
+prompt(`Computer is ${computerMarker}`);
+console.log();
 
 prompt("Please choose empty square");
 playerChoosesSquare(board);
+computerChoosesSquare(board);
 displayBoard(board);
-
-//let computerSquare = Math.round(Math.random() * 9);
-//board[computerSquare] = computerMarker;
-//displayBoard(board);
