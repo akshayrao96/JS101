@@ -30,6 +30,11 @@ function initializeBoard() {
 
 // displays board
 function displayBoard(options) {
+  console.clear();
+
+  prompt("Welcome to Tic Tac Toe!");
+
+  console.log();
   console.log("");
   console.log("              |         |          ");
   console.log(
@@ -79,9 +84,39 @@ function squareType(num) {
   }
 }
 
-function winningBoard(board) {}
+function winningBoard(board) {
+  return !!detectWinner(board);
+}
 
-function tiedBoard(board) {}
+function detectWinner(board) {
+  let winningLines = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7]
+  ];
+
+  for (let i = 0; i < winningLines.length; i++) {
+    let [sq1, sq2, sq3] = winningLines[i];
+    if (board[sq1] === userMarker &&
+      board[sq2] === userMarker && board[sq3] == userMarker) {
+      return "Player"
+    } else if (board[sq1] === computerMarker &&
+      board[sq2] === computerMarker && board[sq3] == computerMarker) {
+      return "Computer"
+    }
+  }
+  return null;
+}
+
+function fullBoard(board) {
+  let emptySquares = Object.keys(board).filter((key) => board[key] === " ");
+  return emptySquares.length === 0;
+}
 
 function playerChoosesSquare(board) {
   let emptySquares = Object.keys(board).filter((key) => board[key] === " ");
@@ -106,23 +141,45 @@ function computerChoosesSquare(board) {
   board[computerSquare] = computerMarker;
 }
 
+function main() {
+  console.log();
+  let board = initializeBoard();
+  displayBoard(board);
+  prompt("Please pick:  1. O  2. X");
+  let userChoice = rls.prompt();
+  console.log();
 
+  squareType(userChoice);
+  prompt(`You are ${userMarker}`);
+  prompt(`Computer is ${computerMarker}`);
+  console.log();
 
-// main
-console.log();
-prompt("Welcome to Tic-Tac-Toe game!");
-let board = initializeBoard();
-displayBoard(board);
-prompt("Please pick:  1. O  2. X");
-let userChoice = rls.prompt();
-console.log();
+  while (true) {
+    prompt("Please choose empty square");
+    playerChoosesSquare(board);
+    if (winningBoard(board) || fullBoard(board)) {
+      break;
+    }
+    computerChoosesSquare(board);
+    if (winningBoard(board) || fullBoard(board)) {
+      break;
+    }
+    displayBoard(board);
+  }
+  displayBoard(board);
+  if (winningBoard(board)) {
+    prompt(`${detectWinner(board)} won!`);
+  } else {
+    prompt("It's a tie!");
+  }
+}
 
-squareType(userChoice);
-prompt(`You are ${userMarker}`);
-prompt(`Computer is ${computerMarker}`);
-console.log();
-
-prompt("Please choose empty square");
-playerChoosesSquare(board);
-computerChoosesSquare(board);
-displayBoard(board);
+while (true) {
+  main();
+  prompt("Play again? (y or n)");
+  let answer = rls.question().toLowerCase()[0];
+  if (answer !== "y") {
+    break;
+  }
+}
+prompt("Thanks for playing Tic Tac Toe!");
