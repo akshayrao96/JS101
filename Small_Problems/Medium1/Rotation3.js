@@ -4,9 +4,8 @@ function maxRotation(number) {
   for (let i = digits; i > 1; i--) {
     result = rotateRightmostDigits(result, i);
   }
-  return result
+  return result;
 }
-
 
 function rotateRightmostDigits(num, id) {
   let numArr = String(num).split("");
@@ -14,7 +13,6 @@ function rotateRightmostDigits(num, id) {
   let arrReverse = numArr.slice(index);
   arrReverse = arrReverse.slice(1).concat(arrReverse[0]);
   return Number(numArr.slice(0, index).concat(arrReverse).join(""));
-
 }
 
 console.log(maxRotation(735291)); // 321579
