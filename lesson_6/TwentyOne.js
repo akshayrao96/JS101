@@ -175,79 +175,74 @@ function displayWinner(arr1, arr2) {
 }
 
 
-function main(deck) {
-  while (true) {
+while (true) {
+  console.log("");
+  prompt("Welcome to BlackJack!");
+  console.log("");
+  let currentDeck = deck.slice();
+  let playerCards = [];
+  let dealerCards = [];
+  dealInitialCards(currentDeck, playerCards, dealerCards);
+  if (calculateValue(playerCards) === 21 && calculateValue(dealerCards) === 21) {
+    prompt(`Dealer shows ${dealerCards[1]}`);
+    prompt("Both player and dealer have blackjack! It's a tie.");
+  } else if (calculateValue(playerCards) === 21) {
+    prompt("Player has blackjack! Player wins.");
+  } else if (calculateValue(dealerCards) === 21) {
+    prompt(`Dealer shows ${dealerCards[1]}`);
+    prompt("Dealer has blackjack! Dealer wins.");
+  } else {
     console.log("");
-    prompt("Welcome to BlackJack!");
-    console.log("");
-    let currentDeck = deck.slice();
-    let playerCards = [];
-    let dealerCards = [];
-    dealInitialCards(currentDeck, playerCards, dealerCards);
-    if (calculateValue(playerCards) === 21 && calculateValue(dealerCards) === 21) {
-      prompt(`Dealer shows ${dealerCards[1]}`);
-      prompt("Both player and dealer have blackjack! It's a tie.");
-    } else if (calculateValue(playerCards) === 21) {
-      prompt("Player has blackjack! Player wins.");
-    } else if (calculateValue(dealerCards) === 21) {
-      prompt(`Dealer shows ${dealerCards[1]}`);
-      prompt("Dealer has blackjack! Dealer wins.");
-    } else {
-      console.log("");
-      prompt("What would you like to do\n==> 1) hit \n==> 2) stand");
-      let option = rls.prompt();
+    prompt("What would you like to do\n==> 1) hit \n==> 2) stand");
+    let option = rls.prompt();
+    console.clear();
+    while (!validOptions[0].includes(option) && !validOptions[1].includes(option)) {
+      prompt("Please select a valid option");
+      option = rls.prompt();
       console.clear();
+    }
+    while (validOptions[0].includes(option)) {
+      playerCards.push(cardSelected(deck));
+      prompt(`You received a ${playerCards[playerCards.length - 1][0]}`);
+      console.log("");
+      if (busted(playerCards)) {
+        break;
+      }
+      prompt(`Your cards are ${playerCards.join(", ")}`);
+      prompt("What would you like to do\n==> 1) hit \n==> 2) stand");
+      option = rls.prompt();
       while (!validOptions[0].includes(option) && !validOptions[1].includes(option)) {
         prompt("Please select a valid option");
         option = rls.prompt();
         console.clear();
       }
-      while (validOptions[0].includes(option)) {
-        playerCards.push(cardSelected(deck));
-        prompt(`You received a ${playerCards[playerCards.length - 1][0]}`);
+    }
+    if (busted(playerCards)) {
+      prompt("You have busted! Dealer wins");
+    } else {
+      prompt("Player stands.");
+      console.clear();
+      console.log("");
+      dealerHits(dealerCards, currentDeck);
+      if (calculateValue(dealerCards) <= 21) {
+        displayWinner(playerCards, dealerCards);
         console.log("");
-        if (busted(playerCards)) {
-          break;
-        }
-        prompt(`Your cards are ${playerCards.join(", ")}`);
-        prompt("What would you like to do\n==> 1) hit \n==> 2) stand");
-        option = rls.prompt();
-        while (!validOptions[0].includes(option) && !validOptions[1].includes(option)) {
-          prompt("Please select a valid option");
-          option = rls.prompt();
-          console.clear();
-        }
-      }
-      if (busted(playerCards)) {
-        prompt("You have busted! Dealer wins");
       } else {
-        prompt("Player stands.");
-        console.clear();
-        console.log("");
-        dealerHits(dealerCards, currentDeck);
-        if (calculateValue(dealerCards) <= 21) {
-          displayWinner(playerCards, dealerCards);
-          console.log("");
-        } else {
-          prompt("Dealer busts! Player wins");
-        }
+        prompt("Dealer busts! Player wins");
       }
-    }
-
-    prompt("Would you like to play again \n==> 1.) yes \n==> 2.) no");
-    let response = rls.prompt();
-    console.clear();
-    while (!playAgain[0].includes(response.toLowerCase()) && !playAgain[1].includes(response.toLowerCase())) {
-      prompt("Please select valid option");
-      response = rls.prompt();
-    }
-    if (playAgain[1].includes(response.toLowerCase())) {
-      break;
     }
   }
-  console.log("");
-  prompt("Thanks for playing!");
+
+  prompt("Would you like to play again \n==> 1.) yes \n==> 2.) no");
+  let response = rls.prompt();
+  console.clear();
+  while (!playAgain[0].includes(response.toLowerCase()) && !playAgain[1].includes(response.toLowerCase())) {
+    prompt("Please select valid option");
+    response = rls.prompt();
+  }
+  if (playAgain[1].includes(response.toLowerCase())) {
+    break;
+  }
 }
-
-
-main(deck);
+console.log("");
+prompt("Thanks for playing!");
